@@ -18,7 +18,7 @@ The model can be used for a variety of tasks such as text generation, summarizat
 import torch
 from transformers import AutoTokenizer, AutoModelForCausalLM, BitsAndBytesConfig, TextStreamer
 
-name = "dwightf/berkshireGPT"
+name = "dwightf/BerkshireGPT"
      
 bnb_config = BitsAndBytesConfig(
     load_in_4bit=True,
