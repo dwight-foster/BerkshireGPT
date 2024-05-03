@@ -15,13 +15,14 @@ class PDFReader:
         self.max_history = 5
         self.model = model
         self.tokenizer = tokenizer
-        system_prompt = """### Instruction:
-        You are a quant investor giving your advice on stocks. And choosing whether to buy, sell, or hold them."""
-        query_wrapper_prompt = PromptTemplate("### Text:\n Q - {query_str} \n A - ")
-        llm = HuggingFaceLLM(context_window=6144,
+        system_prompt = """[INST]<<SYS>>\n You are a value investor giving your advice on stocks. And choosing 
+        whether to buy, sell, or hold them. \n\n <</SYS>>"""
+        def complete_to_prompt(complete: str) -> str:
+            return f"\nQ - {complete}\n[/INST]\nA -"
+        llm = HuggingFaceLLM(context_window=4096,
                              max_new_tokens=1024,
                              system_prompt=system_prompt,
-                             query_wrapper_prompt=query_wrapper_prompt,
+                             completion_to_prompt=complete_to_prompt,
                              model=model,
                              tokenizer=tokenizer)
         Settings.llm = llm
@@ -51,12 +52,12 @@ class PDFReader:
                 item = query[i]
                 if i == len(query) - 1:
                     messages += "".join([
-                                            "\n### Instruction\n You are a value investor giving your advice on stocks. And choosing whether to buy, sell, or hold them.\n ### Text:\n",
-                                            self.extra_text, "\n Q -", item[0], "\nA - ", item[1]])
+                                            "[INST]<<SYS>>\n You are a value investor giving your advice on stocks. And choosing whether to buy, sell, or hold them. \n\n <</SYS>>\n",
+                                            self.extra_text, "\n Q -", item[0], "\n[/INST]\nA - ", item[1]])
                 else:
                     messages += "".join([
-                                            "\n### Instruction\n You are a value investor giving your advice on stocks. And choosing whether to buy, sell, or hold them.\n ### Text:\n Q -",
-                                            item[0], "\nA - ", item[1]])
+                                            "[INST]<<SYS>>\n You are a value investor giving your advice on stocks. And choosing whether to buy, sell, or hold them. \n\n <</SYS>>\n\n Q -",
+                                            item[0], "\n[/INST]\nA - ", item[1]])
             return messages
 
     def query(self, query, file, options, ticker):
