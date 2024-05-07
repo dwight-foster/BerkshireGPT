@@ -14,7 +14,7 @@ The model was trained on the annual letters to shareholders from 2004 to 2021. T
 ## Usage
 The model can be used for a variety of tasks such as text generation, summarization, and question answering. The model can be used with the Hugging Face Transformers library or mlx if you have an apple computer.
 
-The inference.ipynb notebook can run on any device but is optimized for cuda gpus. The apple_inference.ipynb uses mlx and is optimized for Apple devices.
+The inference.ipynb notebook can run on any device but is optimized for cuda gpus. 
 
 
 ```python
