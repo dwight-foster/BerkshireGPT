@@ -2,7 +2,6 @@ import yfinance as yf
 from llama_index.core import VectorStoreIndex, SimpleDirectoryReader
 from transformers import TextIteratorStreamer
 from threading import Thread
-from llama_index.core import PromptTemplate
 from llama_index.llms.huggingface import HuggingFaceLLM
 from llama_index.core import Settings
 from llama_index.embeddings.huggingface import HuggingFaceEmbedding

@@ -1,0 +1,10 @@
+# llms
+transformers
+mlx
+mlx-lm
+llama-index
+torch
+bitsandbytes
+
+# finance
+yfinance
