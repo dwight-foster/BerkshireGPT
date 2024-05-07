@@ -65,3 +65,5 @@ If you have any questions or would like to collaborate, please feel free to reac
 ## License
 This model is licensed under the MIT License. You may use it for commercial and non-commercial use.
 
+## Reminder
+This model is just for testing and educational purposes. It should not be used for making financial decisions and is not financial advice.
