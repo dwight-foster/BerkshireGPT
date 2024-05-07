@@ -38,6 +38,12 @@ Scripts are available in the `scripts` folder to help with using the model. Ther
 
 You can run inference with `BitsAndBytes` quantization on a GPU with only 8GB of memory
 
+You can run the gradio demo with the following command:
+
+```bash
+python gradio_scripts/run.py
+```
+
 ## Future Work
 
 Benchmark the model
