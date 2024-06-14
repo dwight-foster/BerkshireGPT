@@ -19,6 +19,7 @@ The inference.ipynb notebook can run on any device but is optimized for cuda gpu
 
 ### Updates
 - Added mlx support for gradio engine. Still has some bugs though but it works.
+- MLX llama index rag code is from [this](https://github.com/dwight-foster/mlx-llama-index-llm) repository.
 
 ```python
 import torch
