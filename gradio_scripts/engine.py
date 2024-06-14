@@ -5,8 +5,13 @@ from threading import Thread
 from llama_index.llms.huggingface import HuggingFaceLLM
 from llama_index.core import Settings
 from llama_index.embeddings.huggingface import HuggingFaceEmbedding
+import sys
+sys.path.append('./mlx-llm')
+from base import MLXLLM
+from model_utils import gen_stream
+
 class PDFReader:
-    def __init__(self, model, tokenizer):
+    def __init__(self, model, tokenizer, mlx=False):
         self.reader = None
         self.index = None
         self.rag = False
@@ -18,17 +23,26 @@ class PDFReader:
         whether to buy, sell, or hold them. \n\n <</SYS>>"""
         def complete_to_prompt(complete: str) -> str:
             return f"\nQ - {complete}\n[/INST]\nA -"
-        llm = HuggingFaceLLM(context_window=4096,
+        if mlx:
+            llm = MLXLLM(context_window=4096,
                              max_new_tokens=1024,
                              system_prompt=system_prompt,
                              completion_to_prompt=complete_to_prompt,
                              model=model,
                              tokenizer=tokenizer)
+        else:
+            llm = HuggingFaceLLM(context_window=4096,
+                                 max_new_tokens=1024,
+                                 system_prompt=system_prompt,
+                                 completion_to_prompt=complete_to_prompt,
+                                 model=model,
+                                 tokenizer=tokenizer)
         Settings.llm = llm
         Settings.chunk_size = 1024
         embeddings = HuggingFaceEmbedding(model_name="all-MiniLM-L6-v2")
 
         Settings.embed_model = embeddings
+        self.mlx = mlx
 
     def read_pdf(self, pdf_file):
         names = []
@@ -68,8 +82,10 @@ class PDFReader:
         if self.rag:
             yield from self.rag_query(query)
         else:
-            yield from self.chat_query(query)
-
+            if not self.mlx:
+                yield from self.chat_query(query)
+            else:
+                yield from self.chat_query_mlx(query)
 
 
     def rag_query(self, history):
@@ -104,6 +120,15 @@ class PDFReader:
             if new_token != '<':
                 history[-1][1] += new_token
                 yield history
+
+    def chat_query_mlx(self, history):
+        messages = self.format_query(history)
+        history[-1][1] = ""
+        for token in gen_stream(self.model, self.tokenizer, messages):
+            if token != '<':
+                history[-1][1] += token
+                yield history
+
 
     def clear(self):
         self.reader = None

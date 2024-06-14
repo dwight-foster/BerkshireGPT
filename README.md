@@ -16,6 +16,8 @@ The model can be used for a variety of tasks such as text generation, summarizat
 
 The inference.ipynb notebook can run on any device but is optimized for cuda gpus. 
 
+### Updates
+- Added mlx support for gradio engine. Still has some bugs though but it works.
 
 ```python
 import torch
