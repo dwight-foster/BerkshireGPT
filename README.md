@@ -4,9 +4,10 @@
 
 ## Introduction
 This is a 7 billion parameter language model based on the Llama2 architecture. It was trained on the 
-Berkshire Hathaway annual letters to shareholders from 2004 to 2021. The model was trained using Lora fine-tuning.
+Berkshire Hathaway annual letters to shareholders from 2004 to 2021. The model was trained using Lora fine-tuning. 
+I have also released an MLX version for optimized inference on Mac computers. 
 
-[BerkshireGPT Model Card](https://huggingface.co/dwightf/berkshireGPT)
+[BerkshireGPT Model Card](https://huggingface.co/dwightf/berkshireGPT) [MLX Version](https://huggingface.co/dwightf/BerkshireGPTMLX)
 
 ## Training Data and Process
 The model was trained on the annual letters to shareholders from 2004 to 2021. The letters were obtained from the Berkshire Hathaway website. The letters were preprocessed to remove any non-ASCII characters and then tokenized using the Hugging Face tokenizers library. The model was trained using the Lora fine-tuning method. The model was trained on Kaggle using their notebooks and available GPUs. It took about a hour and a half to train for 300 steps. 
